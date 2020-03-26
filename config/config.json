@@ -1,0 +1,21 @@
+{
+  "port": 3006,
+  "neo4j": {
+    "enable": true,
+    "url": "bolt://localhost:7687",
+    "user": "neo4j",
+    "pass": "meow",
+    "encrypted": false
+  },
+  "rabbit": {
+    "enable": true,
+    "url": "amqp://rabbitmq:CodaGlenBaronyMonk@localhost:5672?heartbeat=3600",
+    "routingKey": "syncevents.harvester.updates.*",
+    "exchange": "syncevents",
+    "exchangeType": "topic",
+    "prefetch": 18
+  },
+  "inferDates": true,
+  "mergeSchema": false,
+  "skipPriorityCheck": true
+}
