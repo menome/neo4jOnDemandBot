@@ -45,7 +45,7 @@ Of the above, name, desc, and query and queryId are required properties. If a qu
 ```
 /demand
 ```
-Returns a list of queries with their queryId, description and any required queries.
+Returns a list of queries with their queryId, description and any required query parameters.
 
 ##### Post:
 ```
