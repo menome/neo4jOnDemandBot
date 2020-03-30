@@ -5,9 +5,10 @@
  */
 'use strict'
 const Bot = require('@menome/botframework')
+const configSchema = require('./config')
 const config = require('../config/config.json')
 const path = require('path')
-const onDemand = require('./onDemand')
+const OnDemand = require('./onDemand')
 // Start the actual bot here.
 var bot = new Bot({
   config: {
@@ -19,7 +20,8 @@ var bot = new Bot({
 })
 // Initialize our local gensim copy
 // ################################
-var sw = new ScrapeWrapper(bot)
+var on = new OnDemand(bot)
+on.loadTasks(bot.config.get('tasks'))
 
 // Set up controllers
 // ##################
@@ -27,7 +29,7 @@ var sw = new ScrapeWrapper(bot)
 bot.registerControllers(path.join(__dirname + '/controllers'))
 
 bot.web.use((req, res, next) => {
-  req.sw = sw
+  req.on = on
   next()
 })
 

@@ -4,18 +4,64 @@
  * Schedules queries using cron.
  */
 'use strict'
-var cron = require('cron')
 var decypher = require('decypher/loader')
-var logger = require('./logger')
+var util = require('util')
 
 module.exports = function (bot) {
-  // Keep our running jobs in here.
-  var runningJobs = 0
-  var _jobs = []
   var _tasks = []
 
-  function runTask (task) {
+  // This is like JSON.stringify, except property keys are printed without quotes around them
+  // And we only include properties that are primitives.
+  function buildObjectStr (obj) {
+    var paramStrings = []
+
+    for (var p in obj) {
+      if (typeof obj[p] === 'object' || typeof obj[p] === 'function') continue
+      else if (typeof obj[p] === 'string') paramStrings.push(util.format('%s: "%s"', p, obj[p]))
+      else paramStrings.push(util.format('%s: %s', p, obj[p]))
+    }
+
+    return util.format('{%s}', paramStrings.join(','))
+  }
+
+  this.loadTasks = function (tasks) {
+    bot.logger.info('Getting all queries in config')
+    _tasks = tasks
+  }
+
+  // Get a list of our running tasks.
+  this.getTasks = function () {
+    var retVal = []
+
+    _tasks.forEach((task) => {
+      retVal.push({'queryId': task.queryId,
+        'desc': task.desc,
+        'queryParams': Object.keys(task.queryParams)})
+    })
+
+    return retVal
+  }
+
+  this.runTask = function (queryId, payload) {
     bot.changeState({state: 'working'})
+
+    // find queryId in task list
+    var task = _tasks.find(t => {
+      if (t.queryId === queryId) {
+        return t
+      }
+    })
+
+    // couldn't find anything so reject
+    if (typeof task !== 'object' && task === undefined) {
+      return Promise.reject('Could not find query id')
+    }
+
+    var query = task.query
+    var params = task.queryParams
+
+    // only one task in a query file
+    // not gonna do batch atm
     if (task.queryFile) {
       var taskQueries
       try {
@@ -24,25 +70,22 @@ module.exports = function (bot) {
         return Promise.reject(err)
       }
 
-      var queryList = []
-      var paramList = []
-
       // Put all the queries into a list for batch execution.
       var keys = Object.keys(taskQueries)
-      for (var i = 0; i < keys.length; i++) {
-        queryList.push(taskQueries[keys[i]])
-        paramList.push(task.queryParams)
-      }
-      // if(paramList){
-      //   bot.logger.info("Running queries:", queryList, paramList);
-      // }else{
-      //   bot.logger.info("Running Queries:",queryList);
-      // }
-
-      // Run them all in the same session.
-      return bot.neo4j.batchQuery(queryList, paramList)
+      query = taskQueries[keys[0]]
+      params = task.queryParams
     }
 
-    return bot.neo4j.query(task.query, task.queryParams)
+      // Run them all in the same session.
+    //  return bot.neo4j.batchQuery(queryList, paramList)
+
+    if (typeof payload === 'object' && payload !== null) {
+      params = payload
+      // params = buildObjectStr(payload)
+    }
+
+    bot.changeState({state: 'idle'})
+
+    return bot.neo4j.query(query, params)
   }
 }

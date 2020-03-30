@@ -1,5 +1,5 @@
 {
-  "port": 3006,
+  "port": 3007,
   "neo4j": {
     "enable": true,
     "url": "bolt://localhost:7687",
@@ -7,15 +7,23 @@
     "pass": "meow",
     "encrypted": false
   },
-  "rabbit": {
-    "enable": true,
-    "url": "amqp://rabbitmq:CodaGlenBaronyMonk@localhost:5672?heartbeat=3600",
-    "routingKey": "syncevents.harvester.updates.*",
-    "exchange": "syncevents",
-    "exchangeType": "topic",
-    "prefetch": 18
-  },
-  "inferDates": true,
-  "mergeSchema": false,
-  "skipPriorityCheck": true
+  "tasks": [{
+      "queryId": "titleCaseConverter",
+      "name": "Title Case Converter",
+      "desc": "Makes sure all Name properties on Cards begin with an uppercase letter.",
+      "query": "MATCH (c:Card) WHERE c.Name =~ $nameregex WITH c, left(c.Name, 1) as firstLetter, right(c.Name, length(c.Name)-1) as rest SET c.Name = (toUpper(firstLetter) + rest) RETURN c",
+      "queryParams": {
+        "nameregex": "^[a-z]+"
+      }
+    },
+    {
+      "queryId": "testQuery",
+      "name": "Test Query",
+      "desc": "ASDF",
+      "queryFile": "testq.cql",
+      "queryParams": {
+        "nameregex": "^[a-z]+"
+      }
+    }
+  ]
 }

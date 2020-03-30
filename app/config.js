@@ -11,7 +11,9 @@ module.exports = {
     default: [],
     format: function check (tasks) {
       tasks.forEach((task) => {
-        if ((typeof task.name) !== 'string') { throw new Error('Tasks must have a name.') }
+        if ((typeof task.queryId) !== 'string') { throw new Error('Tasks must have a queryId property.') }
+
+        if ((typeof task.name) !== 'string') { throw new Error('Tasks must have a name property.') }
 
         if ((typeof task.query) !== 'string' && (typeof task.queryFile) !== 'string') {
           throw new Error("Tasks must have one of 'query' or 'queryFile'")
