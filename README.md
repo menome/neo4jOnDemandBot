@@ -2,9 +2,9 @@
 
 > Like the Crony Bot but when you want it *RIGHT NOW*
 
-This is a bot that lets you run queries whenever on a given graph database.
+This is a bot that lets you run queries whenever on a given graph database one task at a time.
 
-Configure it to connect to neo4j and supply it with a list of queries to run at configured intervals.
+Does not batch queries.
 
 #### Example JSON Configuration:
 ```json
