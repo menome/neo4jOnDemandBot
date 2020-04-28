@@ -1,3 +1,18 @@
+```
+o.     O                          
+Oo     o             o   O    O    _____        ______                               _ 
+O O    O             O   o        |  _  |       |  _  \                             | |
+O  o   o             o   o        | | | |_ __   | | | |___ _ __ ___   __ _ _ __   __| |
+O   o  O .oOo. .oOo. OooOOo  'o   | | | | '_ \  | | | / _ \ '_ ` _ \ / _` | '_ \ / _` |
+o    O O OooO' O   o     O    O   \ \_/ / | | | | |/ /  __/ | | | | | (_| | | | | (_| |
+o     Oo O     o   O     o    o    \___/|_| |_| |___/ \___|_| |_| |_|\__,_|_| |_|\__,_|
+O     `o `OoO' `OoO'     O    O   
+                              o   _|_|_|                _|      
+                            oO'   _|    _|    _|_|    _|_|_|_|  
+                                  _|_|_|    _|    _|    _|       
+                                  _|    _|  _|    _|    _|         
+                                  _|_|_|      _|_|        _|_|              
+```
 # Neo4j On Demand Bot
 
 > Like the Crony Bot but when you want it *RIGHT NOW*
@@ -55,6 +70,6 @@ Body:
 ```
 payload = {a : "foo", b = "bar"}
 ```
-Runs the query specified with queryId. A query might have built in queryParams. They can be over written by proving a payload in the body of the request as a Json object.
+Runs the query specified with queryId. A query might have built in queryParams. They can be over written by providing a payload in the body of the request as a Json object.
 
 It will error if query parameters are required but not specified.
