@@ -36,10 +36,7 @@ module.exports.swaggerDef = {
           'description': 'Error'
         }
       }
-    }
-  },
-  '/demand': {
-    'x-swagger-router-controller': 'demand',
+    },
     'get': {
       'description': 'Gets a list of configured tasks.',
       'tags': [
@@ -54,7 +51,7 @@ module.exports.swaggerDef = {
         }
       }
     }
-  }
+  }  
 }
 
 module.exports.post = function (req, res) {
