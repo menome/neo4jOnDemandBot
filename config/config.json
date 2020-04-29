@@ -7,6 +7,14 @@
     "pass": "meow",
     "encrypted": false
   },
+  "rabbit": {
+    "enable": true,
+    "url": "amqp://rabbitmq:CodaGlenBaronyMonk@localhost:5672?heartbeat=3600",
+    "routingKey": "syncevents.bulk.*",
+    "exchange": "syncevents",
+    "exchangeType": "topic",
+    "prefetch": 18
+  },
   "tasks": [{
       "queryId": "titleCaseConverter",
       "name": "Title Case Converter",
@@ -23,6 +31,14 @@
       "queryFile": "testq.cql",
       "queryParams": {
         "nameregex": "^[a-z]+"
+      }
+    },
+    {
+      "queryId": "sourceId",
+      "name": "payload test",
+      "desc": "this queryid comes from rabbit",
+      "queryFile": "testIngest.cql",
+      "queryParams": {        
       }
     }
   ]

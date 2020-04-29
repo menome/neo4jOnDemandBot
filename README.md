@@ -7,17 +7,18 @@ O   o  O .oOo. .oOo. OooOOo  'o   | | | | '_ \  | | | / _ \ '_ ` _ \ / _` | '_ \
 o    O O OooO' O   o     O    O   \ \_/ / | | | | |/ /  __/ | | | | | (_| | | | | (_| |
 o     Oo O     o   O     o    o    \___/|_| |_| |___/ \___|_| |_| |_|\__,_|_| |_|\__,_|
 O     `o `OoO' `OoO'     O    O   
-                              o   _|_|_|                _|      
-                            oO'   _|    _|    _|_|    _|_|_|_|  
-                                  _|_|_|    _|    _|    _|       
-                                  _|    _|  _|    _|    _|         
-                                  _|_|_|      _|_|        _|_|              
+                              o                        _|_|_|                _|      
+                            oO'                        _|    _|    _|_|    _|_|_|_|  
+                                                       _|_|_|    _|    _|    _|       
+                                                       _|    _|  _|    _|    _|         
+                                                       _|_|_|      _|_|        _|_|              
 ```
 # Neo4j On Demand Bot
 
 > Like the Crony Bot but when you want it *RIGHT NOW*
 
 This is a bot that lets you run queries whenever on a given graph database one task at a time.
+and... now it also listens to rabbit for bulk sql events... maybe this functionality should move.. or we should rename it... ourNeo4jLoadMasterBlaster. 
 
 Does not batch queries.
 
@@ -28,6 +29,14 @@ Does not batch queries.
     "url": "bolt://neo4j",
     "user": "neo4j",
     "pass": "swordfish"
+  },
+  "rabbit": {
+    "enable": true,
+    "url": "amqp://rabbitmq:CodaGlenBaronyMonk@localhost:5672?heartbeat=3600",
+    "routingKey": "syncevents.bulk.*",
+    "exchange": "syncevents",
+    "exchangeType": "topic",
+    "prefetch": 18
   },
   "tasks": [
     {
