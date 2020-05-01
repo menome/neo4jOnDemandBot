@@ -29,7 +29,7 @@ module.exports = function (bot) {
     _tasks = tasks
   }
 
-  // Get a list of our running tasks.
+  // Get a list of our runnable tasks.
   this.getTasks = function () {
     var retVal = []
 
@@ -43,8 +43,7 @@ module.exports = function (bot) {
   }
 
   this.runTask = function (queryId, payload) {
-    bot.changeState({state: 'working'})
-
+    bot.changeState({state: 'working'})    
     // find queryId in task list
     var task = _tasks.find(t => {
       if (t.queryId === queryId) {
@@ -84,8 +83,9 @@ module.exports = function (bot) {
       // params = buildObjectStr(payload)
     }
 
-    bot.changeState({state: 'idle'})
+    bot.changeState({state: 'idle'})    
 
     return bot.neo4j.query(query, params)
   }
+
 }

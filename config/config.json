@@ -4,7 +4,7 @@
     "enable": true,
     "url": "bolt://localhost:7687",
     "user": "neo4j",
-    "pass": "meow",
+    "pass": "CodaGlenBaronyMonk",
     "encrypted": false
   },
   "rabbit": {
@@ -13,7 +13,7 @@
     "routingKey": "syncevents.bulk.*",
     "exchange": "syncevents",
     "exchangeType": "topic",
-    "prefetch": 18
+    "prefetch": 1
   },
   "tasks": [{
       "queryId": "titleCaseConverter",
@@ -34,7 +34,7 @@
       }
     },
     {
-      "queryId": "sourceId",
+      "queryId": "source1",
       "name": "payload test",
       "desc": "this queryid comes from rabbit",
       "queryFile": "testIngest.cql",

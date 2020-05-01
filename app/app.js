@@ -26,12 +26,20 @@ on.loadTasks(bot.config.get('tasks'))
 // Set up controllers
 // ##################
 // Let our middleware use these.
-bot.registerControllers(path.join(__dirname + '/controllers'))
+// bot.registerControllers(path.join(__dirname + '/controllers'))
 
-bot.web.use((req, res, next) => {
-  req.on = on
-  next()
-})
+// bot.web.use((req, res, next) => {
+//   req.on = on
+//   next()
+// })
+
+var thinger = function (message){
+  var newLoad = JSON.stringify(message.payload)
+  bot.logger.info(newLoad)
+ return on.runTask(message.sourceId,{payload:newLoad})
+}
+
+bot.rabbit.addListener('demandedQueue',thinger,"bulkLoadMessage");
 
 // Start the bot
 // #############
