@@ -35,7 +35,7 @@ on.loadTasks(bot.config.get('tasks'))
 
 var thinger = function (message){
   var newLoad = JSON.stringify(message.payload)
-  bot.logger.info(newLoad)
+  bot.logger.info("processing a message")  
  return on.runTask(message.sourceId,{payload:newLoad})
 }
 
