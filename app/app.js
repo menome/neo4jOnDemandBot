@@ -34,6 +34,7 @@ on.loadTasks(bot.config.get('tasks'))
 // })
 
 var thinger = function (message){
+  //TODO: feel like we shouldn't HAVE to stringify this json array...
   var newLoad = JSON.stringify(message.payload)
   bot.logger.info("processing a message")  
  return on.runTask(message.sourceId,{payload:newLoad})
