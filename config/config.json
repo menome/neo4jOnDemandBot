@@ -40,6 +40,14 @@
       "queryFile": "testIngest.cql",
       "queryParams": {        
       }
+    },
+    {
+      "queryId": "source2",
+      "name": "payload test2",
+      "desc": "this queryid comes from rabbit",
+      "queryFile": "testIngest2.cql",
+      "queryParams": {        
+      }
     }
   ]
 }
