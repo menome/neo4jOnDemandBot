@@ -12,7 +12,7 @@ module.exports = function (bot) {
 
   // This is like JSON.stringify, except property keys are printed without quotes around them
   // And we only include properties that are primitives.
-  function buildObjectStr (obj) {
+  function buildObjectStr(obj) {
     var paramStrings = []
 
     for (var p in obj) {
@@ -34,16 +34,19 @@ module.exports = function (bot) {
     var retVal = []
 
     _tasks.forEach((task) => {
-      retVal.push({'queryId': task.queryId,
+      retVal.push({
+        'queryId': task.queryId,
         'desc': task.desc,
-        'queryParams': Object.keys(task.queryParams)})
+        'queryParams': Object.keys(task.queryParams)
+      })
     })
 
     return retVal
   }
 
   this.runTask = function (queryId, payload) {
-    bot.changeState({state: 'working'})    
+    bot.changeState({ state: 'working' })
+    bot.logger.info("processing query",{queryId:queryId})
     // find queryId in task list
     var task = _tasks.find(t => {
       if (t.queryId === queryId) {
@@ -60,30 +63,22 @@ module.exports = function (bot) {
     var params = task.queryParams
 
     // only one task in a query file
-    // not gonna do batch atm
     if (task.queryFile) {
-      var taskQueries
+      var taskQuery
       try {
-        taskQueries = decypher('./config/queries/' + task.queryFile)
+        taskQuery = decypher('./config/queries/' + task.queryFile)
       } catch (err) {
         return Promise.reject(err)
       }
-
-      // Put all the queries into a list for batch execution.
-      var keys = Object.keys(taskQueries)
-      query = taskQueries[keys[0]]
+      query = taskQuery
       params = task.queryParams
     }
 
-      // Run them all in the same session.
-    //  return bot.neo4j.batchQuery(queryList, paramList)
-
     if (typeof payload === 'object' && payload !== null) {
       params = payload
-      // params = buildObjectStr(payload)
     }
-
-    bot.changeState({state: 'idle'})    
+    
+    bot.logger.info("query request initiated",{queryId:queryId})
 
     return bot.neo4j.query(query, params)
   }

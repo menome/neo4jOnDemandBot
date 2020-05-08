@@ -33,16 +33,27 @@ on.loadTasks(bot.config.get('tasks'))
 //   next()
 // })
 
-var thinger = function (message){
+//TODO: this would be nice as a "hey there is an object in your payload, it ain't going in the graph cuz kablooey."
+var thinger = function (message) {
   //TODO: feel like we shouldn't HAVE to stringify this json array...
-  var newLoad = JSON.stringify(message.payload)
-  bot.logger.info("processing a message")  
- return on.runTask(message.sourceId,{payload:newLoad})
+  bot.logger.info("processing a message")
+  for (var row of message.payload) {    
+    //bot.logger.info("whut",{payload:row})
+    row["VDM_HashBytesKey"] = "ObjectRemovedDuringImport"
+    // for (var prop in row){
+    //   if(prop == "VDM_HashBytesKey"){
+    //     bot.logger.info("whut",{prop:prop})
+    //     prop = ""
+    //   }
+    // }    
+  }  
+  var newLoad = JSON.stringify(message.payload)    
+  return on.runTask(message.sourceId, { payload: newLoad }).then((s)=>bot.logger.info("message done processing"))
 }
 
-bot.rabbit.addListener('demandedQueue',thinger,"bulkLoadMessage");
+bot.rabbit.addListener('demandedQueue', thinger, "bulkLoadMessage");
 
 // Start the bot
 // #############
 bot.start()
-bot.changeState({state: 'idle'})
+bot.changeState({ state: 'idle' })
