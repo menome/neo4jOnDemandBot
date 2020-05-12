@@ -26,12 +26,12 @@ on.loadTasks(bot.config.get('tasks'))
 // Set up controllers
 // ##################
 // Let our middleware use these.
-// bot.registerControllers(path.join(__dirname + '/controllers'))
+bot.registerControllers(path.join(__dirname + '/controllers'))
 
-// bot.web.use((req, res, next) => {
-//   req.on = on
-//   next()
-// })
+bot.web.use((req, res, next) => {
+  req.on = on
+  next()
+})
 
 //TODO: this would be nice as a "hey there is an object in your payload, it ain't going in the graph cuz kablooey."
 var thinger = function (message) {
