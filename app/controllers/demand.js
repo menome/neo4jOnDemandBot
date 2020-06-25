@@ -17,8 +17,7 @@ module.exports.swaggerDef = {
         {
           'name': 'payload',
           'in': 'body',
-          'description': 'Potential payload of the query',
-          'required': true,
+          'description': 'Potential payload of the query',          
           'schema': {
             'type': 'object',
             'properties': {
