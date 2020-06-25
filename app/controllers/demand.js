@@ -59,7 +59,7 @@ module.exports.post = function (req, res) {
 
   req.bot.logger.info('Starting query: ', req.swagger.params.queryId.value)
 
-  return req.on.runTask(queryId, payload).then((success) => {
+  return req.demander.runTask(queryId, payload).then((success) => {
     res.send(
         helpers.responseWrapper({
           status: 'success',
@@ -78,7 +78,7 @@ module.exports.post = function (req, res) {
 }
 
 module.exports.get = function (req, res) {
-  var taskDef = req.on.getTasks()
+  var taskDef = req.demander.getTasks()
 
   res.send(helpers.responseWrapper({
     status: 'success',

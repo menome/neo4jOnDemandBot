@@ -82,3 +82,9 @@ payload = {a : "foo", b = "bar"}
 Runs the query specified with queryId. A query might have built in queryParams. They can be over written by providing a payload in the body of the request as a Json object.
 
 It will error if query parameters are required but not specified.
+
+
+# NOTE:
+decypher supports multiple queries in a file, putting a comment like "//name: AQueryName"
+putting this above your cypher will result in returning an object map of the queries in your file, and this currently breaks the method. So.. one per file. no fancy name. We should fix that. TODO. TechDebt?
+

@@ -63,10 +63,11 @@ module.exports = function (bot) {
     var params = task.queryParams
 
     // only one task in a query file
-    if (task.queryFile) {
+    if (task.queryFile) {      
       var taskQuery
       try {
-        taskQuery = decypher('./config/queries/' + task.queryFile)
+        //TODO: this can return an object instead of string if there is more than one, or the query is preceeded by a comment line of this form e.g. // name: QueryName
+        taskQuery = decypher('./config/queries/' + task.queryFile)        
       } catch (err) {
         return Promise.reject(err)
       }
@@ -77,7 +78,7 @@ module.exports = function (bot) {
     if (typeof payload === 'object' && payload !== null) {
       params = payload
     }
-    
+        
     bot.logger.info("query request initiated",{queryId:queryId})
 
     return bot.neo4j.query(query, params)

@@ -29,7 +29,7 @@ on.loadTasks(bot.config.get('tasks'))
 bot.registerControllers(path.join(__dirname + '/controllers'))
 
 bot.web.use((req, res, next) => {
-  req.on = on
+  req.demander = on
   next()
 })
 
